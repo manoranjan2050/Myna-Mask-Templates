@@ -764,6 +764,16 @@ DESIGNS = {
         YELLOW_HX=14.6, YELLOW_HY=12, HEAD_L=24, HEAD_W=13, WINGS_ON=False, SCALE_PL=[],
         HEAD_PL=[(88, 56, -8), (76, 62, -28)],
         SIDE_SIZES=[(52, 24), (44, 20)], SIDE_X=(30, 70, 140, 180)),
+    "Design_5_Wide_Golden": dict(
+        DESIGN_NAME="Design 5: Wide & Golden", MASK_W=160, MASK_H=126, FACE_A=50, FACE_B=82, HOLE_X=34,
+        BROWN="#C9953A", CAP_COL="#6B4A1A", BLACK_S=1.2, YELLOW_S=1.0, YELLOW_HX=15.2, YELLOW_HY=12.3,
+        HEAD_L=30, HEAD_W=14, HEAD_PL=[(90, 54, -8), (80, 58, -24), (70, 64, -40)],
+        SIDE_SIZES=[(52, 22), (44, 19)], SIDE_X=(28, 64, 146, 182)),
+    "Design_6_Pointed_Heart": dict(
+        DESIGN_NAME="Design 6: Pointed Heart", MASK_W=150, MASK_H=140, FACE_A=28, FACE_B=34, HOLE_X=38,
+        BROWN="#6B4A32", CAP_COL="#222222", HEAD_L=28, HEAD_W=12,
+        HEAD_PL=[(92, 52, -6), (82, 57, -22), (72, 63, -38)],
+        SIDE_SIZES=[(50, 20), (42, 17)], SIDE_X=(30, 66, 144, 180)),
     "Design_3_Crested_Myna": dict(
         DESIGN_NAME="Design 3: Crested Myna", MASK_W=155, MASK_H=138, FACE_A=20, FACE_B=40,
         BROWN="#7D5A3C", CAP_COL="#1B1B22", HEAD_L=32, HEAD_W=12,
