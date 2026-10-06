@@ -1,13 +1,14 @@
 # Myna (मैना) Paper / Kraft-Card Mask Templates
 
 Printable A4 SVG cutting templates for a child's school-project Myna bird face mask.
-Three designs, six pages each (main mask, beak, eyes, feathers, colour guide, assembly guide).
+Four designs, six pages each (main mask, beak, eyes, feathers, colour guide, assembly guide).
 
 | Folder | Look |
 |---|---|
 | `Design_1_Classic` | Broad face, dark head cap, fan of head feathers |
 | `Design_2_Round_Cute` | Rounder face, big round eyes, chubby head tufts |
 | `Design_3_Crested_Myna` | Tall peaked face, long feather crest |
+| `Design_4_Simple_Easy` | Fewest pieces (no wings or scales) - easiest for ages 6-8 |
 
 ## How to use
 1. Print pages 1–4 at **100% / Actual Size** (never "Fit to page"). Check the 50 mm scale square with a ruler.

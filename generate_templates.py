@@ -31,6 +31,7 @@ SIDE_SIZES = [(50, 20), (42, 17)]      # page-4 large side feathers (L, W)
 SIDE_X = (26, 60, 150, 184)
 DESIGN_NAME = ""
 EYE_CMDS = None
+WINGS_ON = True                        # False = simpler design without wing pieces / chin scales
 
 # ============================= STYLES ==============================
 CUT = 'fill="none" stroke="#000" stroke-width="0.7" stroke-linejoin="round" stroke-linecap="round"'
@@ -236,9 +237,9 @@ def page1():
             xx, rr = (x, r) if not mir else (mirror_x(x), -r)
             s.append(P(feather_d(L, W), PLACE, f'transform="translate({n(xx)} {n(y)}) rotate({rr})"'))
         wx, wy, wr, ws = WING_PL
-        if not mir:
+        if WINGS_ON and not mir:
             s.append(P(build(WING, ws, ws), PLACE, f'transform="translate({wx} {wy}) rotate({wr})"'))
-        else:
+        elif WINGS_ON:
             s.append(P(build(WING, -ws, ws), PLACE, f'transform="translate({mirror_x(wx)} {wy}) rotate({-wr})"'))
         for (x, y, w, h) in SCALE_PL:
             xx = x if not mir else mirror_x(x)
@@ -258,7 +259,7 @@ def page1():
     # ---- feather letters
     for sgn in (1, -1):
         dx = 0 if sgn == 1 else None
-    for (lbl, x, y) in (("H", 82, 52), ("S", 50, 128), ("W", 58, 146), ("C", 90, 154)):
+    for (lbl, x, y) in (("H", 82, 52), ("S", 50, 128), ("W", 58, 146), ("C", 90, 154))[:4 if WINGS_ON else 2]:
         for xx in (x, mirror_x(x)):
             s.append(T(xx, y, lbl, 3.6, "middle", "bold", "#aaa"))
     # ---- CUT lines
@@ -474,20 +475,24 @@ def page4():
         for (x, bd, lab) in ((22 + i * sp, 3, "L"), (210 - 22 - i * sp, -3, "R")):
             s.append(piece(feather_d(L, HEAD_W, bd), x, 136, feather_fold_d(L, bd)))
             s.append(lr(x, 142, lab))
-    # C wing pieces
-    s.append(T(10, 148, "C  WING-LIKE DECORATIVE PIECES — brown card (1 left + 1 right)", 3.6, weight="bold"))
-    s.append(piece(build(WING), 14, 160, "M10,6 Q31,2 52,8"))
-    s.append(piece(build(WING, sx=-1), 196, 160, "M-10,6 Q-31,2 -52,8"))
-    s.append(lr(46, 197, "L"))
-    s.append(lr(164, 197, "R"))
-    s.append(T(105, 175, "tip: glue wings over", 2.8, "middle", fill="#888"))
-    s.append(T(105, 179, "the feathers (layer 3)", 2.8, "middle", fill="#888"))
-    # D layered scales
-    s.append(T(10, 206, "D  LAYERED CHIN / CHEEK SCALES — light brown or kraft card (cut 2 of each size)", 3.6, weight="bold"))
-    for x, (w, h) in zip((26, 56, 82, 128, 154, 184), ((24, 22), (18, 17), (13, 12)) * 2):
-        s.append(piece(build(scale_cmds(w, h)), x, 211))
-    s.append(T(40, 238 - 4, "LEFT set", 2.8, "middle", fill="#888"))
-    s.append(T(170, 238 - 4, "RIGHT set", 2.8, "middle", fill="#888"))
+    if WINGS_ON:
+        # C wing pieces
+        s.append(T(10, 148, "C  WING-LIKE DECORATIVE PIECES — brown card (1 left + 1 right)", 3.6, weight="bold"))
+        s.append(piece(build(WING), 14, 160, "M10,6 Q31,2 52,8"))
+        s.append(piece(build(WING, sx=-1), 196, 160, "M-10,6 Q-31,2 -52,8"))
+        s.append(lr(46, 197, "L"))
+        s.append(lr(164, 197, "R"))
+        s.append(T(105, 175, "tip: glue wings over", 2.8, "middle", fill="#888"))
+        s.append(T(105, 179, "the feathers (layer 3)", 2.8, "middle", fill="#888"))
+        # D layered scales
+        s.append(T(10, 206, "D  LAYERED CHIN / CHEEK SCALES — light brown or kraft card (cut 2 of each size)", 3.6, weight="bold"))
+        for x, (w, h) in zip((26, 56, 82, 128, 154, 184), ((24, 22), (18, 17), (13, 12)) * 2):
+            s.append(piece(build(scale_cmds(w, h)), x, 211))
+        s.append(T(40, 238 - 4, "LEFT set", 2.8, "middle", fill="#888"))
+        s.append(T(170, 238 - 4, "RIGHT set", 2.8, "middle", fill="#888"))
+    else:
+        s.append(T(10, 150, "SIMPLE DESIGN — only 3 kinds of piece, no wings or scales to cut.", 3.6, weight="bold"))
+        s.append(T(10, 158, "Glue the big side feathers first, then the head feathers on top. Easy for ages 6–8!", 3.0, fill="#222"))
     legend(s)
     scale_check(s)
     finish("04_feathers.svg", s)
@@ -506,7 +511,7 @@ def mask_art(uid, face=True, eyes=True, feathers=True, beak=True, holes=True, ca
         g.append(P(face_d(), f'fill="none" stroke="{outline}" stroke-width="{sw}" stroke-linejoin="round"'))
     ls = f'stroke="#1a0f08" stroke-width="{sw * .6}" stroke-linejoin="round"'
     if feathers:
-        for mir in (False, True):
+        for mir in ((False, True) if WINGS_ON else ()):
             wx, wy, wr, ws = WING_PL
             if mir:
                 g.append(P(build(WING, -ws, ws), f'fill="#6E4220" {ls}', f'transform="translate({mirror_x(wx)} {wy}) rotate({-wr})"'))
@@ -742,7 +747,8 @@ BASE = dict(MASK_W=155, MASK_H=130, FACE_A=35, FACE_B=60, HEAD_L=26, HEAD_W=11, 
             BROWN="#9A6A3A", EYE_CMDS=None, BLACK_S=1.15, YELLOW_S=0.97, YELLOW_HX=14.8, YELLOW_HY=12,
             HOLE_X=36, SIDE_SIZES=[(50, 20), (42, 17)], SIDE_X=(26, 60, 150, 184), DESIGN_NAME="",
             HEAD_PL=[(88, 54, -8), (79, 58, -24), (70, 64, -40)],
-            SIDE_PL=[(62, 104, -118, 46, 19), (66, 112, -133, 38, 16)])
+            SIDE_PL=[(62, 104, -118, 46, 19), (66, 112, -133, 38, 16)], WINGS_ON=True,
+            SCALE_PL=[(92, 134, 24, 22), (84, 139, 18, 17), (77, 143, 13, 12)])
 DESIGNS = {
     "Design_1_Classic": dict(DESIGN_NAME="Design 1: Classic"),
     "Design_2_Round_Cute": dict(
@@ -752,6 +758,12 @@ DESIGNS = {
         HEAD_PL=[(90, 56, -6), (80, 60, -22), (70, 66, -38)],
         SIDE_SIZES=[(48, 25), (40, 21)], SIDE_X=(30, 70, 140, 180),
         SIDE_PL=[(62, 104, -118, 44, 23), (66, 112, -133, 36, 19)]),
+    "Design_4_Simple_Easy": dict(
+        DESIGN_NAME="Design 4: Simple & Easy", MASK_W=150, MASK_H=128, FACE_A=45, FACE_B=70, HOLE_X=38,
+        BROWN="#A9733C", CAP_COL="#3A2616", EYE_CMDS=EYE_ROUND, BLACK_S=1.2, YELLOW_S=0.95,
+        YELLOW_HX=14.6, YELLOW_HY=12, HEAD_L=24, HEAD_W=13, WINGS_ON=False, SCALE_PL=[],
+        HEAD_PL=[(88, 56, -8), (76, 62, -28)],
+        SIDE_SIZES=[(52, 24), (44, 20)], SIDE_X=(30, 70, 140, 180)),
     "Design_3_Crested_Myna": dict(
         DESIGN_NAME="Design 3: Crested Myna", MASK_W=155, MASK_H=138, FACE_A=20, FACE_B=40,
         BROWN="#7D5A3C", CAP_COL="#1B1B22", HEAD_L=32, HEAD_W=12,
